@@ -48,16 +48,23 @@ class UnitConverter
 
         $args = func_get_args();
         $argCount = count($args);
+        $command = null;
 
         // escape apostrophes since the string will be encapsulated
         array_walk( $args, function(&$val) { $val = str_replace( "'", "\\'", $val ); } );
 
+        // Determine the correct sequence of arguments based on the number of args
         if( 3 === $argCount ) {
             // $sourceQuantity, $sourceUnit, $targetUnit
-            return $this->processOutput( $this->run( "'{$args[0]} {$args[1]}' '{$args[2]}'" ) );
+            $command = "'{$args[0]} {$args[1]}' '{$args[2]}'";
         } elseif( 2 === $argCount ) {
             // $sourceCombined, $targetUnit
-            return $this->processOutput( $this->run( "'{$args[0]}' '{$args[1]}'" ) );
+            $command = "'{$args[0]}' '{$args[1]}'";
+        }
+
+        // if there's a command, exec and return result
+        if( null !== $command ) {
+            return $this->processOutput( $this->run( $command ) );
         }
 
         throw new Exception\InvalidArgumentException("Invalid number of arguments passed to UnitConverter::convert (expected 2 or 3, got $argCount)");
