@@ -51,7 +51,7 @@ class UnitConverter
         $command = null;
 
         // escape apostrophes since the string will be encapsulated
-        array_walk( $args, function(&$val) { $val = str_replace( "'", "\\'", $val ); } );
+        array_walk( $args, function(&$val) { $val = addslashes($val); } );
 
         // Determine the correct sequence of arguments based on the number of args
         if( 3 === $argCount ) {
