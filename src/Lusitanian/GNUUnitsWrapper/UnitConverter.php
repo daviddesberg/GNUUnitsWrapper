@@ -24,7 +24,7 @@ class UnitConverter
      * The process name of the local GNU Units instance.
      * @var string
      */
-    protected $processName;
+    private $processName;
 
     /**
      * Constructs an instance of UnitConverter.
@@ -100,7 +100,7 @@ class UnitConverter
             }
 
 
-            return filter_var( $output, FILTER_VALIDATE_FLOAT ); // should always be numeric
+            return filter_var( $output, FILTER_SANITIZE_NUMBER_FLOAT ); // should always be numeric
         }
 
         if( false !== stripos($output[0], 'conformability') ) {
